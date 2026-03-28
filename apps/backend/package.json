@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "build": "prisma generate && tsdown",
-    "start": "bun dist/index.mjs",
+    "start": "bun --env-file=.env --env-file=.env.production dist/index.mjs",
     "postinstall": "prisma generate",
     "prod:sql": "bunx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script > baseline.sql",
     "prod:check-env": "bun --env-file=.env.production -e \"console.log(process.env.DATABASE_URL)\"",
-    "prod:migrate": "set DATABASE_URL=libsql://monorepo-h1101241011-cloud.aws-eu-west-1.turso.io&& bun prisma/migrate.ts",
+    "prod:migrate": "bun --env-file=.env.production prisma/migrate.ts",
     "prod:seed": "bun --env-file=.env.production prisma/seed.ts",
     "dev:turso": "bun --env-file=.env.production src/index.ts"
   },
@@ -21,6 +21,7 @@
     "@prisma/adapter-libsql": "7.5.0",
     "@prisma/client": "7.5.0",
     "@prisma/client-runtime-utils": "^7.5.0",
+    "dotenv": "^17.3.1",
     "elysia": "^1.4.27",
     "googleapis": "^171.4.0",
     "shared": "workspace:*"
