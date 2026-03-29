@@ -3,30 +3,20 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
-// Fungsi untuk menentukan komponen mana yang akan dirender
-async function renderApp() {
-  const path = window.location.pathname
-  let AppComponent
+// Routing sederhana berdasarkan path
+const path = window.location.pathname
 
-  if (path === '/classroom') {
-    // Import dinamis untuk App3
-    const { default: ClassroomApp } = await import('./App3')
-    AppComponent = ClassroomApp
-  } else {
-    // Import dinamis untuk App2 sebagai default
-    const { default: DefaultApp } = await import('./App2')
-    AppComponent = DefaultApp
-  }
-
-  const container = document.getElementById('root')
-  if (container) {
-    createRoot(container).render(
-      <StrictMode>
-        <AppComponent />
-      </StrictMode>
-    )
-  }
+let App
+if (path === '/classroom') {
+  const { default: ClassroomApp } = await import('./App3')
+  App = ClassroomApp
+} else {
+  const { default: DefaultApp } = await import('./App2')
+  App = DefaultApp
 }
 
-// Jalankan fungsi render
-renderApp()
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+)
